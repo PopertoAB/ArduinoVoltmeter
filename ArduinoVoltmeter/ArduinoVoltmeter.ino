@@ -1,4 +1,4 @@
-#include "D7S.h"
+#include <D7S.h>
 
 int tiempoVista = 4;
 int canal=0;
@@ -97,5 +97,6 @@ void manejarInterrupcion(){
   if(canal>5){
     canal=0;
   }
+  delay(500);
 }
 
