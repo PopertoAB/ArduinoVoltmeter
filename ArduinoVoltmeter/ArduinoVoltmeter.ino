@@ -11,10 +11,11 @@ D7S dig3(1, tiempoVista);
 D7S dig4(0, tiempoVista);
 
 void setup(){
-  attachInterrupt(0, manejarInterrupcion, FALLING);
+  pinMode(2, INPUT);
 }
 
 void loop(){
+  manejarInterrupcion();
   checarCanal();
   mostrarDatos();
 }
@@ -93,10 +94,13 @@ int obtenerDecimales(){
 }
 
 void manejarInterrupcion(){
-  canal++;
-  if(canal>5){
-    canal=0;
+  if(digitalRead(2)==0){
+    delay(500);
+    canal++;
+    if(canal>5){
+      canal=0;
+    }
   }
-  delay(500);
 }
+
 
