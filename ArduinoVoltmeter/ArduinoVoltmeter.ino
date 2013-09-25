@@ -95,7 +95,7 @@ int obtenerDecimales(){
 
 void manejarInterrupcion(){
   if(digitalRead(2)==0){
-    delay(500);
+    delay(50);
     canal++;
     if(canal>5){
       canal=0;
