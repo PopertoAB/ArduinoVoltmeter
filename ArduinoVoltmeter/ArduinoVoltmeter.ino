@@ -1,4 +1,7 @@
 #include <D7S.h>
+#include <EEPROM.h>
+#include <Math.h>
+#include "EEPROMAnything.h"
 
 int tiempoEspera=4;
 
@@ -20,12 +23,18 @@ long inicioPresion=0;
 long finPresion=0;
 int calibrar=0;
 int canal=-1;
-float calibracion[]={
-  1.0,1.0,1.0,1.0,1.0,1.0};
+float calibracion[6];
 float voltajeCalibrado;
 
 void setup(){
   pinMode(entrada, INPUT_PULLUP);
+
+  EEPROM_readAnything(0, calibracion);
+  for(int i=0; i < (sizeof(calibracion)/sizeof(float)) ; i++){
+    if(isnan(calibracion[i]) || isinf(calibracion[i])){
+      calibracion[i]=1.0;
+    }
+  }  
 
   inicioPresion=millis();
 }
@@ -99,7 +108,11 @@ void leerVoltaje(){
   if(!calibrar){
   }
   else{
+    float calibracionPrevia=calibracion[canal];
     calibracion[canal]=(200.0*90.0)/((float)voltajeMap*200.0);
+    if(calibracionPrevia!=calibracion[canal]){
+      EEPROM_updateAnything(0, calibracion);
+    }
   }
 }
 
